@@ -1,3 +1,4 @@
+import json
 from functools import lru_cache
 
 import firebase_admin
@@ -10,19 +11,43 @@ from app.core.config import settings
 def get_firebase_app():
     """
     Initialize Firebase exactly once.
+
+    Local development:
+        Uses firebase_service_account_path.
+
+    Production:
+        Uses firebase_service_account_json from environment variables.
     """
 
     try:
         return firebase_admin.get_app()
 
     except ValueError:
-        credential = credentials.Certificate(
-            settings.firebase_service_account_path
-        )
 
-        return firebase_admin.initialize_app(
-            credential
-        )
+        # Production: Firebase credentials provided as JSON
+        if settings.firebase_service_account_json:
+            service_account_info = json.loads(
+                settings.firebase_service_account_json
+            )
+
+            credential = credentials.Certificate(
+                service_account_info
+            )
+
+        # Local development: Firebase credentials provided as a file
+        elif settings.firebase_service_account_path:
+            credential = credentials.Certificate(
+                settings.firebase_service_account_path
+            )
+
+        else:
+            raise RuntimeError(
+                "Firebase credentials are not configured. "
+                "Set FIREBASE_SERVICE_ACCOUNT_JSON or "
+                "FIREBASE_SERVICE_ACCOUNT_PATH."
+            )
+
+        return firebase_admin.initialize_app(credential)
 
 
 @lru_cache

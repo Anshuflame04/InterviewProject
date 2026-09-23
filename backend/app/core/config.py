@@ -33,7 +33,8 @@ class Settings(BaseSettings):
     gemini_model: str = "gemini-3.8-flash"
 
     # Firebase
-    firebase_service_account_path: str
+    firebase_service_account_path: str = ""
+    firebase_service_account_json: str = ""
 
     # CORS
     cors_origins: str = "http://localhost:5173"
