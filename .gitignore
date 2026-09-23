@@ -1,0 +1,149 @@
+# =========================================================
+# Logs
+# =========================================================
+
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+
+# Backend secrets
+backend/firebase-service-account.json
+backend/.env
+backend/.env.*
+backend/.env.example
+src/.env
+
+
+# =========================================================
+# Dependencies
+# =========================================================
+
+node_modules/
+
+
+# =========================================================
+# Production / Build
+# =========================================================
+
+dist/
+dist-ssr/
+build/
+
+
+# =========================================================
+# Local environment / secrets
+# =========================================================
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Keep example environment files
+!.env.example
+
+
+# =========================================================
+# Local configuration
+# =========================================================
+
+*.local
+
+
+# =========================================================
+# IDE / Editor
+# =========================================================
+
+.vscode/*
+!.vscode/extensions.json
+
+.idea/
+
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# =========================================================
+# OS generated files
+# =========================================================
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+
+# =========================================================
+# Package manager / tooling caches
+# =========================================================
+
+.npm/
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.turbo/
+
+
+# =========================================================
+# Coverage
+# =========================================================
+
+coverage/
+.nyc_output/
+
+
+# =========================================================
+# TypeScript
+# =========================================================
+
+*.tsbuildinfo
+
+
+# =========================================================
+# Temporary files
+# =========================================================
+
+*.tmp
+*.temp
+*.swp
+*.swo
+
+
+# =========================================================
+# Python / Backend
+# =========================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.venv/
+venv/
+env/
+ENV/
+
+# Backend secrets
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Firebase / Google Cloud credentials
+backend/firebase-service-account.json
+
+# Runtime / local files
+backend/logs/
+backend/uploads/
+backend/tmp/
