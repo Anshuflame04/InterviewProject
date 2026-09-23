@@ -27,11 +27,6 @@ class Settings(BaseSettings):
     host: str = "127.0.0.1"
     port: int = 8001
 
-    # LLM
-    llm_provider: str = "gemini"
-    google_api_key: str = ""
-    gemini_model: str = "gemini-3.8-flash"
-
     # Firebase
     firebase_service_account_path: str = ""
     firebase_service_account_json: str = ""

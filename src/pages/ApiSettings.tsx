@@ -22,6 +22,7 @@ export default function ApiSettings() {
         if (!apiKey.trim()) return;
         const settings = { provider, model, apiKey: apiKey.trim() };
         saveLlmSettings(settings);
+        window.dispatchEvent(new Event("llm-settings-changed"));
         setSavedSettings((current) => ({ ...current, [provider]: settings }));
         setSavedMessage(true);
     };
@@ -36,7 +37,7 @@ export default function ApiSettings() {
                 <label className="text-sm font-semibold text-slate-200">{provider === "groq" ? "Groq" : "Gemini"} API key<div className="relative mt-2"><input type={showApiKey ? "text" : "password"} autoComplete="off" value={apiKey} onChange={(event) => { setApiKey(event.target.value); setSavedMessage(false); }} placeholder="Paste your API key" className="w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-3 pr-11 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-400" /><button type="button" onClick={() => setShowApiKey((visible) => !visible)} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 text-slate-400 hover:bg-white/[0.06] hover:text-white" aria-label={showApiKey ? "Hide API key" : "Show API key"} title={showApiKey ? "Hide API key" : "Show API key"}>{showApiKey ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>
                 <div className="rounded-xl border border-cyan-400/15 bg-cyan-400/[0.04] p-3 text-sm text-slate-300">Each provider has its own saved key and model. Switching providers will load that provider's separate configuration.</div>
                 <button type="button" onClick={save} disabled={!apiKey.trim()} className="inline-flex w-fit items-center gap-2 rounded-xl bg-cyan-400 px-5 py-3 text-sm font-bold text-slate-950 disabled:opacity-40"><Save size={16} /> Save configuration</button>
-                {savedMessage && <p className="inline-flex items-center gap-2 text-sm text-emerald-300"><ShieldCheck size={16} /> Saved. Future requests will use this provider and model.</p>}
+                {savedMessage && <p className="inline-flex items-center gap-2 text-sm text-emerald-300"><ShieldCheck size={16} /> Active model: {provider.toUpperCase()} / {model}. Future requests will use this exact configuration.</p>}
             </div>
         </section>
         <section className="rounded-2xl border border-white/10 bg-slate-900 p-5 sm:p-6">

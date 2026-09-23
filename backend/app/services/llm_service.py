@@ -6,7 +6,6 @@ from typing import TypeVar
 from google import genai
 from pydantic import BaseModel
 
-from app.core.config import settings
 from app.core.llm_context import get_llm_config
 
 
@@ -37,10 +36,10 @@ class LLMService:
     """
 
     def __init__(self) -> None:
-        # Gemini clients are cheap to create, but retain a fallback client for
-        # application startup. Actual AI calls use the authenticated user's
-        # provider/key/model supplied from API Setup.
-        self.client = genai.Client(api_key=settings.google_api_key)
+        # There is deliberately no application-level API key. A client is
+        # created per request from the provider, model, and key supplied by
+        # the authenticated user in API Setup.
+        pass
 
     async def generate_text(
         self,
@@ -208,18 +207,10 @@ class LLMService:
 
     async def close(self) -> None:
         """
-        Close the asynchronous Gemini client if supported.
+        No shared client is retained; each request owns its LLM client.
         """
 
-        async_client = getattr(self.client, "aio", None)
-
-        if async_client is None:
-            return
-
-        close_method = getattr(async_client, "aclose", None)
-
-        if close_method is not None:
-            await close_method()
+        return None
 
 
 # Shared application-level service instance.
