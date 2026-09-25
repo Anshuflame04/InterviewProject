@@ -17,6 +17,7 @@ import {
 } from "react-router-dom";
 
 import { useAuth } from "../../hooks/useAuth";
+import BrandMark from "../common/BrandMark";
 
 const navigation = [
     {
@@ -123,13 +124,11 @@ function Sidebar({
         <aside className="flex h-full flex-col">
             <div className={`border-b border-white/[0.06] ${expanded ? "px-5" : "px-3"} py-5`}>
                 <div className={`flex items-center ${expanded ? "gap-3" : "justify-center"}`}>
-                    <div className="grid h-10 w-10 place-items-center rounded-xl border border-blue-400/15 bg-blue-500/10 text-blue-300">
-                        <Mic2 size={19} />
-                    </div>
+                    <BrandMark />
 
                     {expanded && <div className="min-w-0">
                         <p className="truncate text-sm font-bold text-white">
-                            AI Interview
+                            InterviewYou
                         </p>
                         <p className="text-[11px] text-slate-500">
                             Practice workspace
@@ -206,11 +205,9 @@ export default function AppShell() {
                 {/* Mobile header */}
                 <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-white/[0.06] bg-slate-950/90 px-4 backdrop-blur-xl lg:hidden">
                     <div className="flex items-center gap-2.5">
-                        <div className="grid h-9 w-9 place-items-center rounded-lg bg-blue-500/10 text-blue-300">
-                            <Mic2 size={17} />
-                        </div>
+                        <BrandMark size={36} />
                         <span className="text-sm font-bold">
-                            AI Interview
+                            InterviewYou
                         </span>
                     </div>
 

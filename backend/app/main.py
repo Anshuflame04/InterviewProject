@@ -78,7 +78,7 @@ app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
     description=(
-        "Adaptive AI Interview Platform using FastAPI, "
+        "Adaptive InterviewYou platform using FastAPI, "
         "Firebase, Firestore, LangGraph and configurable LLMs."
     ),
     debug=settings.debug,

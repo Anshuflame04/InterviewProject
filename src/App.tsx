@@ -12,9 +12,12 @@ import ApiSettings from "./pages/ApiSettings";
 
 import AppShell from "./components/layout/AppShell";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import GettingStartedModal from "./components/common/GettingStartedModal";
 
 export default function App() {
   return (
+    <>
+    <GettingStartedModal />
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
 
@@ -75,5 +78,6 @@ export default function App() {
         }
       />
     </Routes>
+    </>
   );
 }

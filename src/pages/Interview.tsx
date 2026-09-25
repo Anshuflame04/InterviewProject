@@ -261,6 +261,7 @@ export default function Interview() {
     const handleToggleMicrophone = async () => {
         if (isListening) {
             stopListening();
+            if (microphoneEnabled) toggleMicrophone();
             return;
         }
 
@@ -272,7 +273,7 @@ export default function Interview() {
             toggleMicrophone();
         }
 
-        await startListening();
+        await startListening({ continuous: true, interimResults: true, autoRestart: true });
     };
 
     const handleToggleCamera = async () => {
@@ -418,7 +419,7 @@ export default function Interview() {
                 elapsedSeconds={
                     elapsedSeconds
                 }
-                title="AI Technical Interview"
+                title="InterviewYou Technical Interview"
                 llmModel={llmModel}
             />
 

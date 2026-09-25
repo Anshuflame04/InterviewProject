@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -18,10 +19,22 @@ class Settings(BaseSettings):
     )
 
     # Application
-    app_name: str = "AI Interview Platform"
+    app_name: str = "InterviewYou"
     app_version: str = "1.0.0"
     environment: str = "development"
     debug: bool = True
+
+    @field_validator("debug", mode="before")
+    @classmethod
+    def parse_debug_mode(cls, value: object) -> object:
+        """Accept common deployment labels as well as boolean environment values."""
+        if isinstance(value, str):
+            normalized = value.strip().lower()
+            if normalized in {"release", "production", "prod"}:
+                return False
+            if normalized in {"development", "dev"}:
+                return True
+        return value
 
     # Server
     host: str = "127.0.0.1"

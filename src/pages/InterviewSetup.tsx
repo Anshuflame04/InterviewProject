@@ -740,7 +740,7 @@ export default function InterviewSetup() {
                         </>
                     ) : (
                         <>
-                            Start AI Interview
+                            Start InterviewYou
 
                             <ArrowRight
                                 size={18}

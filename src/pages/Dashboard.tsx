@@ -17,6 +17,7 @@ import MetricCard from "../components/dashboard/MetricCard";
 import PageHeader from "../components/common/PageHeader";
 import { useAuth } from "../hooks/useAuth";
 import { api, API } from "../services/api";
+import { getLlmSettings } from "../services/llmSettings";
 
 type ResumeItem = {
     id?: string;
@@ -249,12 +250,14 @@ export default function Dashboard() {
         user?.displayName ||
         user?.email?.split("@")[0] ||
         "there";
+    const activeLlm = getLlmSettings();
 
     return (
         <div className="space-y-6">
             <PageHeader
                 title={`Welcome back, ${displayName}`}
                 description="Your interview preparation workspace."
+                action={activeLlm ? <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/[0.06] px-3 py-2 text-right"><p className="text-[10px] font-semibold uppercase tracking-wide text-cyan-400">Active AI model</p><p className="mt-0.5 text-xs font-bold text-cyan-100">{activeLlm.provider.toUpperCase()} · {activeLlm.model}</p></div> : <button type="button" onClick={() => navigate("/settings/api")} className="rounded-xl border border-amber-400/20 bg-amber-400/10 px-3 py-2 text-xs font-bold text-amber-200">Set up an AI model</button>}
             />
 
             {error && (
@@ -273,7 +276,7 @@ export default function Dashboard() {
                     <div className="max-w-2xl">
                         <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-cyan-300">
                             <Brain size={13} />
-                            AI Interview Workspace
+                            InterviewYou Workspace
                         </div>
 
                         <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">

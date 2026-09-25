@@ -88,8 +88,10 @@ IMPORTANT:
 - Judge whether the underlying information is present.
 - Focus on the candidate's own actions.
 - Keep feedback specific and actionable.
-- `ideal_answer` is mandatory: provide a concise two-to-four sentence model
-  answer to this exact question, using a clear STAR structure.
+- `ideal_answer` is mandatory: provide a complete five-to-eight sentence
+  model answer to this exact question using a clear STAR structure. Include
+  the situation, the candidate's personal action, and a realistic result;
+  do not make it short merely for brevity.
 - Return valid JSON only.
 
 RETURN FORMAT:

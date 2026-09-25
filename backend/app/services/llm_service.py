@@ -47,7 +47,7 @@ class LLMService:
         *,
         system_instruction: str | None = None,
         temperature: float = 0.3,
-        max_output_tokens: int = 2048,
+        max_output_tokens: int = 4096,
         retries: int = 2,
     ) -> str:
         """
@@ -123,7 +123,7 @@ class LLMService:
         *,
         system_instruction: str | None = None,
         temperature: float = 0.2,
-        max_output_tokens: int = 4096,
+        max_output_tokens: int = 6144,
         retries: int = 2,
     ) -> T:
         """

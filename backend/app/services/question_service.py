@@ -52,7 +52,10 @@ class QuestionService:
             )
 
         # Keep the context readable for the LLM.
-        return str(resume_data)[:6000]
+        # Preserve more resume detail so multi-project candidates receive
+        # grounded, varied questions rather than questions based only on the
+        # first section of the parsed resume.
+        return str(resume_data)[:16000]
 
     async def generate_initial_questions(
         self,
@@ -84,6 +87,7 @@ class QuestionService:
             prompt=prompt,
             response_model=QuestionGenerateResponse,
             temperature=0.4,
+            max_output_tokens=4000,
         )
 
         return result
@@ -127,7 +131,7 @@ class QuestionService:
             prompt=prompt,
             response_model=Question,
             temperature=0.4,
-            max_output_tokens=900,
+            max_output_tokens=1800,
             retries=1,
         )
 

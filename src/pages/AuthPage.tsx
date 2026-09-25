@@ -187,7 +187,7 @@ export default function AuthPage() {
                     </div>
 
                     <h1 className="text-3xl font-bold tracking-tight">
-                        AI Interview Platform
+                        InterviewYou
                     </h1>
 
                     <p className="mt-2 text-sm text-slate-400">

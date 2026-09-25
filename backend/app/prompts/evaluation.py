@@ -116,9 +116,11 @@ IMPORTANT:
 - Do not penalize an answer for not mentioning something that is
   irrelevant to the question.
 - Distinguish between a minor omission and a major conceptual gap.
-- `ideal_answer` is mandatory: write a concise, complete model answer for
-  this exact question (at least two sentences), even when the candidate answer
-  is empty or weak.
+- `ideal_answer` is mandatory: write a complete, interview-quality model
+  answer for this exact question. Include reasoning, important trade-offs,
+  implementation detail, and a concrete example where appropriate. Use at
+  least 5-8 substantive sentences for technical questions; use more when the
+  question needs it. Do not shorten an explanation merely to be brief.
 - Suggest a follow-up question only when additional probing would
   meaningfully evaluate the candidate.
 - Increase difficulty when the candidate demonstrates strong

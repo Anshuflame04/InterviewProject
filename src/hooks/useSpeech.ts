@@ -238,9 +238,16 @@ export function useSpeech(options: UseSpeechOptions = {}) {
                                 return;
                             }
 
-                            setError(
-                                `Speech recognition error: ${recognitionError.error}`,
-                            );
+                            // "no-speech" and "network" are transient browser
+                            // segment events. SpeechRecognitionSession recreates
+                            // the segment automatically, so do not interrupt an
+                            // otherwise active long-form answer with an error.
+                            if (![
+                                "no-speech",
+                                "network",
+                            ].includes(recognitionError.error)) {
+                                setError(`Speech recognition error: ${recognitionError.error}`);
+                            }
                         },
 
                         onEnd: () => {

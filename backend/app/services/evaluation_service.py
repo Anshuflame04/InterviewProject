@@ -47,7 +47,7 @@ class EvaluationService:
 
         # Enough context for personalization without repeatedly sending an
         # entire parsed resume to the model for every answer.
-        return str(data.get("data", {}))[:6000]
+        return str(data.get("data", {}))[:16000]
 
     async def evaluate_answer(
         self,
@@ -76,7 +76,7 @@ class EvaluationService:
             prompt=prompt,
             response_model=AnswerEvaluation,
             temperature=0.1,
-            max_output_tokens=1400,
+            max_output_tokens=6000,
             retries=1,
         )
         # Keep the displayed rating mathematically consistent with the
@@ -108,7 +108,7 @@ class EvaluationService:
             prompt=prompt,
             response_model=BehavioralEvaluation,
             temperature=0.1,
-            max_output_tokens=1200,
+            max_output_tokens=4500,
             retries=1,
         )
         evaluation.overall_score = self._average([
@@ -130,7 +130,7 @@ class EvaluationService:
         answer_summary = "\n".join(
             f"Q: {item.get('question', '')}\nA: {item.get('answer', '')}\nFeedback: {item.get('evaluation', {})}"
             for item in answers.values()
-        )[:12000]
+        )[:60000]
         prompt = f"""
 You are an expert interview coach. Produce a personalized final report.
 
@@ -152,7 +152,7 @@ Keep every recommendation practical, direct, and personalized. Return JSON only.
             prompt=prompt,
             response_model=FinalRecommendations,
             temperature=0.2,
-            max_output_tokens=1000,
+            max_output_tokens=2400,
             retries=1,
         )
 

@@ -27,7 +27,7 @@ export default function InterviewHeader({
     currentQuestion,
     totalQuestions,
     elapsedSeconds,
-    title = "AI Interview",
+    title = "InterviewYou",
     llmModel,
 }: InterviewHeaderProps) {
     const progress =

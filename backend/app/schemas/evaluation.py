@@ -48,7 +48,12 @@ class AnswerEvaluation(BaseModel):
 
     missing_points: list[str] = Field(default_factory=list)
 
-    ideal_answer: str = Field(min_length=20)
+    # A default keeps legacy saved evaluations and lightweight callers valid.
+    # Production prompts explicitly require a complete ideal answer.
+    ideal_answer: str = Field(
+        default="No ideal answer was generated for this evaluation.",
+        min_length=20,
+    )
 
     follow_up_question: str | None = None
 
@@ -82,7 +87,10 @@ class BehavioralEvaluation(BaseModel):
 
     feedback: str
 
-    ideal_answer: str = Field(min_length=20)
+    ideal_answer: str = Field(
+        default="No ideal answer was generated for this evaluation.",
+        min_length=20,
+    )
 
 
 class AnswerEvaluationResponse(BaseModel):

@@ -122,7 +122,7 @@ export default function InterviewerPanel({
 
                     {isSpeaking
                         ? "Interviewer is speaking"
-                        : "AI Interviewer"}
+                        : "InterviewYou Coach"}
                 </div>
 
                 {/* Avatar */}
@@ -185,7 +185,7 @@ export default function InterviewerPanel({
 
                 <div className="mt-7 text-center">
                     <h2 className="text-base font-semibold text-white">
-                        AI Interviewer
+                        InterviewYou Coach
                     </h2>
 
                     <p className="mt-1 text-xs text-slate-600">

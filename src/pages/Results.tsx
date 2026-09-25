@@ -178,7 +178,7 @@ export default function Results() {
             y += height + 8;
         };
 
-        addText("AI Interview Performance Report", 18, true);
+        addText("InterviewYou Performance Report", 18, true);
         addText(`Overall score: ${score !== null ? `${score.toFixed(1)}/10` : "Not available"}   |   Duration: ${formatTime(duration)}`);
 
         questionReports.forEach((item, index) => {

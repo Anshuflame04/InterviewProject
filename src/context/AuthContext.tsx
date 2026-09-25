@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 
 import { auth } from "../firebase";
+import { loadLlmSettingsFromFirebase } from "../services/llmSettings";
 import { AuthContext } from "./auth-context";
 import type { User } from "firebase/auth";
 
@@ -28,6 +29,11 @@ export function AuthProvider({
     useEffect(() => {
         return onAuthStateChanged(auth, (firebaseUser) => {
             setUser(firebaseUser);
+            if (firebaseUser) {
+                void loadLlmSettingsFromFirebase()
+                    .then(() => window.dispatchEvent(new Event("llm-settings-changed")))
+                    .catch((error: unknown) => console.warn("Could not load saved API settings:", error));
+            }
             setLoading(false);
         });
     }, []);

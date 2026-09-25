@@ -1,3 +1,6 @@
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+
 export type LlmProvider = "gemini" | "groq";
 
 export type LlmSettings = {
@@ -52,6 +55,41 @@ export const saveLlmSettings = (settings: LlmSettings) => {
     const saved = getLlmSettingsByProvider();
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...saved, [settings.provider]: settings }));
     localStorage.setItem(ACTIVE_PROVIDER_KEY, settings.provider);
+};
+
+/** Loads the signed-in user's configuration and keeps a local cache for fast startup. */
+export const loadLlmSettingsFromFirebase = async (): Promise<LlmSettingsByProvider> => {
+    const user = auth.currentUser;
+    if (!user) return getLlmSettingsByProvider();
+
+    const snapshot = await getDoc(doc(db, "users", user.uid, "private", "llmSettings"));
+    if (!snapshot.exists()) return getLlmSettingsByProvider();
+
+    const settings = snapshot.data().settings as LlmSettingsByProvider | undefined;
+    const activeProvider = snapshot.data().activeProvider as LlmProvider | undefined;
+    if (settings && typeof settings === "object") {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+        if (activeProvider) localStorage.setItem(ACTIVE_PROVIDER_KEY, activeProvider);
+        return settings;
+    }
+    return getLlmSettingsByProvider();
+};
+
+/** Saves the configuration locally and in the signed-in user's private Firestore document. */
+export const saveLlmSettingsToFirebase = async (settings: LlmSettings) => {
+    saveLlmSettings(settings);
+    const user = auth.currentUser;
+    if (!user) throw new Error("Sign in before saving an API configuration.");
+
+    await setDoc(
+        doc(db, "users", user.uid, "private", "llmSettings"),
+        {
+            settings: getLlmSettingsByProvider(),
+            activeProvider: settings.provider,
+            updatedAt: new Date().toISOString(),
+        },
+        { merge: true },
+    );
 };
 export const clearLlmSettings = () => {
     localStorage.removeItem(STORAGE_KEY);
