@@ -15,6 +15,7 @@ from app.routers import (
     interviews,
     questions,
     resumes,
+    speech,
 )
 
 setup_logging()
@@ -109,6 +110,7 @@ app.include_router(interviews.router)
 app.include_router(questions.router)
 app.include_router(evaluation.router)
 app.include_router(analytics.router)
+app.include_router(speech.router)
 
 
 # ============================================================

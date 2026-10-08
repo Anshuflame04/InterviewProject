@@ -5,6 +5,8 @@ pydantic>=2.13,<3.0
 pydantic-settings>=2.14,<3.0
 python-dotenv>=1.0,<2.0
 python-multipart>=0.0.20,<1.0
+httpx>=0.28,<1.0
+websockets>=12,<16
 
 # AI providers and interview workflow
 google-genai>=2.23,<3.0

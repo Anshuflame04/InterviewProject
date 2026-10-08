@@ -47,6 +47,12 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: str = "http://localhost:5173"
 
+    # Speech providers (server-side only; never expose these to the browser)
+    assemblyai_api_key: str = ""
+    elevenlabs_api_key: str = ""
+    elevenlabs_voice_id: str = "SwN5rDrqlMEssS1cfBHH"
+    elevenlabs_model_id: str = "eleven_v4"
+
     # Upload limits
     max_resume_size_mb: int = 10
 
