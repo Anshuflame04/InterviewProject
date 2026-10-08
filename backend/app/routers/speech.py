@@ -82,11 +82,36 @@ async def stream_tts(
 @router.websocket("/stt")
 async def stream_stt(websocket: WebSocket):
     """Relay browser PCM audio to AssemblyAI's streaming API securely."""
-    requested_protocols = [value.strip() for value in websocket.headers.get("sec-websocket-protocol", "").split(",")]
-    token = requested_protocols[1] if len(requested_protocols) > 1 and requested_protocols[0] == "firebase-auth" else ""
+    requested_protocols = [
+        value.strip()
+        for value in websocket.headers.get("sec-websocket-protocol", "").split(",")
+        if value.strip()
+    ]
+    origin = websocket.headers.get("origin", "<missing>")
+    token = ""
+    if requested_protocols and requested_protocols[0] == "firebase-auth" and len(requested_protocols) >= 2:
+        token = requested_protocols[1]
+    else:
+        logger.warning(
+            "STT handshake rejected: missing firebase-auth subprotocol "
+            "(origin=%s, protocol_count=%d, has_auth_protocol=%s)",
+            origin,
+            len(requested_protocols),
+            "firebase-auth" in requested_protocols,
+        )
+        await websocket.close(code=4401)
+        return
+
     try:
         verify_firebase_token(HTTPAuthorizationCredentials(scheme="Bearer", credentials=token))
-    except HTTPException:
+    except HTTPException as exc:
+        logger.warning(
+            "STT handshake rejected: Firebase token verification failed "
+            "(origin=%s, status=%d, protocol_count=%d)",
+            origin,
+            exc.status_code,
+            len(requested_protocols),
+        )
         await websocket.close(code=4401)
         return
 
@@ -95,6 +120,7 @@ async def stream_stt(websocket: WebSocket):
         return
 
     await websocket.accept(subprotocol="firebase-auth")
+    logger.info("STT handshake accepted (origin=%s)", origin)
     assemblyai_url = (
         "wss://streaming.assemblyai.com/v3/ws?sample_rate=16000"
         "&speech_model=u3-rt-pro&format_turns=true"
