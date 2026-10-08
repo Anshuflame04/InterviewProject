@@ -46,6 +46,7 @@ class Settings(BaseSettings):
 
     # CORS
     cors_origins: str = "http://localhost:5173"
+    frontend_url: str = "https://interview-anshu.netlify.app"
 
     # Speech providers (server-side only; never expose these to the browser)
     assemblyai_api_key: str = ""
@@ -60,11 +61,11 @@ class Settings(BaseSettings):
     def cors_origin_list(self) -> list[str]:
         """Convert comma-separated CORS origins into a list."""
 
-        return [
-            origin.strip()
-            for origin in self.cors_origins.split(",")
-            if origin.strip()
-        ]
+        origins = ["http://localhost:5173", self.frontend_url.strip()]
+        origins.extend(self.cors_origins.split(","))
+        # Preserve a strict explicit allow-list while accepting an optional
+        # comma-separated CORS_ORIGINS deployment override.
+        return list(dict.fromkeys(origin.strip() for origin in origins if origin.strip()))
 
 
 @lru_cache
